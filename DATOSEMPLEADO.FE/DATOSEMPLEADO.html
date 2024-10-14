@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<!--
+Segundo Proyecto
+Ponerle de nombre: DATOSMPLEDO.FE.
+Debera ser un proyecto WEB, para crear una pagina web.
+Funcionalidades del segundo proyecto: DATOSEMPLEDO.FE:
+* Agregar un botón y una tabla.
+* El boton debe tener la etiqueta "Cargar Colaboradores"
+* Al presionar el boton debera consumir el servicio web creado en el primer proyecto y cargar todos lso datos en la tabla.
+* Agregar un botón en cada registo de la tabla con etiqueta "NIVEL DE RIESGO".
+* Al presionar el boton debera mostrar un mensaje en pantalla con la siguiente informacion.
+    * Leer la edad del colaborar.
+        * De 18 a 25 años, mostrar mensaje "FUERA DE PELIGRO"
+        * De 26 a 50 años, mostrar mensaje "TENGA CUIDADO, TOME TODAS LAS MEDIDAS DE PREVENSION"
+        * De 51 en adelante, mostrar mensaje "POR FAVOR QUEDARSE EN CASA".
+-->
+
+<!-- Codigo HTML -->
+
+<html lang="en">
+
+<!-- Titulo de la pestaña -->
+<head>
+
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    
+    <!-- Titulo -->
+    <title>
+        Datos de los Empleados
+    </title>
+
+    <!-- Codigo CSS -->
+    <style>
+
+        /* Estilo para el contenedor del encabezado */
+        .header {
+            display: flex; /* Usamos flexbox para alinear los elementos. */
+            justify-content: space-between; /* Separar los dos bloques hacia los extremos. */
+            align-items: center; /* Alinear elementos verticalmente al centro. */
+            background-color: #f8f8f8; /* Color de fondo del encabezado. */
+            padding: 10px 20px; /* Espaciado interno del encabezado. */
+            border-bottom: 1px solid #ddd; /* Línea divisoria inferior. */
+        }
+
+        /* Estilo para el bloque del logo. */
+        .header-left {
+            display: flex; /* Flexbox para organizar elementos dentro del bloque izquierdo. */
+            align-items: center; /* Centrar verticalmente */
+        }
+
+        /* Estilo para los elementos de navegación. */
+        .nav-item {
+            color: #333;
+            text-decoration: none; /* Sin subrayado. */
+            font-weight: bold; /* Negrita para el texto. */
+        }
+
+        /* Cambiar el color al pasar el mouse por encima. */
+        .nav-item:hover {
+            color: #fb741c
+        }
+
+        /* Estilo para la división del encabezado con color */
+        .colored-div-encabezado {
+            display: flex; /* Activa flexbox */
+            align-items: center; /* Centra verticalmente los elementos */
+            justify-content: center; /* Centra horizontalmente el texto */
+            background-color: white; /* Color de fondo */
+            color: #fb741c; /* Color del texto */
+            padding: 20px; /* Espaciado interno */
+            position: relative; /* Posicionamiento relativo */
+            height: 100px; /* Altura del bloque */
+        }
+
+        /* Estilo para el logo */
+        .logo {
+            position: absolute; /* Posicionamiento absoluto */
+            left: 20px; /* Distancia desde el lado izquierdo */
+            top: 50%; /* Posición vertical central */
+            transform: translateY(-50%); /* Centra verticalmente el logo */
+        }
+
+        .color-texto {
+            color: white; /* Color del texto */
+        }
+
+    </style>
+
+</head>
+
+<!-- Cuerpo de la pagina -->
+<body>
+    
+    <div class = "colored-div-encabezado">
+        <div class="header-left" >
+            <!-- Logo -->
+            <a href = "https://www.hubspot.es/" target="_blank"> <!-- Abre un link en otra pestaña -->
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjMuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzMzguNjU5NjEgOTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMzOC42NTk2MSA5NiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBvbHlnb24gZmlsbD0iIzIxMzM0MyIgcG9pbnRzPSIzNi42NzcyNSw1NC4zMzIxOSAxMS44MDkxOCw1NC4zMzIxOSAxMS44MDkxOCw4MC41Mjg1OSAwLDgwLjUyODU5IDAsMTUuODkwODMgMTEuODA5MTgsMTUuODkwODMgCgkJMTEuODA5MTgsNDIuOTcxMDMgMzYuNjc3MjUsNDIuOTcxMDMgMzYuNjc3MjUsMTUuODkwODMgNDguNDgzNzgsMTUuODkwODMgNDguNDgzNzgsODAuNTI4NTkgMzYuNjc3MjUsODAuNTI4NTkgCSIvPgoJPHBhdGggZmlsbD0iIzIxMzM0MyIgZD0iTTg2LjI2OTM2LDU5LjYzNjM0YzAsNS4zODM0NC00LjM4NTMxLDkuNzYzNzUtOS43Njc1NSw5Ljc2Mzc1Yy01LjM4MzY4LDAtOS43NjYxNi00LjM4MDMxLTkuNzY2MTYtOS43NjM3NQoJCXYtMjcuNjg0OUg1NS41NTMzOXYyNy42ODQ5YzAsMTEuNTUwMjUsOS4zOTc2NCwyMC45NDU1OCwyMC45NDg0MiwyMC45NDU1OGMxMS41NDg0MiwwLDIwLjk0NjA1LTkuMzk1MzMsMjAuOTQ2MDUtMjAuOTQ1NTgKCQl2LTI3LjY4NDloLTExLjE3ODVWNTkuNjM2MzR6Ii8+Cgk8cGF0aCBmaWxsPSIjMjEzMzQzIiBkPSJNMTY5LjI0NTU2LDM0LjgwMTljMC01LjY3NjIxLDMuNzU2OTktNy40NzYxNSw3Ljg3MDI1LTcuNDc2MTVjMy4zMTIwMSwwLDcuNjk0NzIsMi41MjA2OSwxMC41NTQyNCw1LjU4MzYxCgkJbDcuMzMzMjUtOC42NDQ0Yy0zLjY2NDUxLTQuOTUxMi0xMS4wODc5MS04LjM3NDEzLTE3LjE3MDc1LTguMzc0MTNjLTEyLjE2NzMxLDAtMjAuOTMzODUsNy4xMTQyNC0yMC45MzM4NSwxOC45MTEwNgoJCWMwLDIxLjg4MDQ2LDI2Ljc0ODIsMTQuOTQ0NzksMjYuNzQ4MiwyNy4xOTQwNGMwLDMuNzc3NTMtMy42NjYzOCw3LjExMjM2LTcuODY5MzQsNy4xMTIzNgoJCWMtNi42MjE3LDAtOC43Njk2MS0zLjI0MTc0LTExLjgwOTg2LTYuNjY0bC04LjE0MTgyLDguNDYyNzJjNS4xOTEyMiw2LjM5MzczLDExLjYzMDA4LDkuNjM3MzYsMTkuMzIzNjUsOS42MzczNgoJCWMxMS41Mzk0OSwwLDIwLjg0MzI1LTcuMjA0MDUsMjAuODQzMjUtMTguNDYxNDlDMTk1Ljk5MjgsMzcuNzcxNDgsMTY5LjI0NTU2LDQ1LjMzNjI3LDE2OS4yNDU1NiwzNC44MDE5eiIvPgoJPHBhdGggZmlsbD0iIzIxMzM0MyIgZD0iTTMzNC43MjA0OSw3MC4yMDI3OGMtNi42MTY5NywwLTguNDk1MDYtMi44NjA5Ni04LjQ5NTA2LTcuMjQ1OThWNDMuNTQ2NThoMTAuMjg0ODJ2LTkuODM4OTJoLTEwLjI4NDgyCgkJVjIwLjczNTE1bC0xMS4zNTc3OSw1LjA5ODI2djM5LjUzOTMxYzAsMTAuMTA5Myw2Ljk3NDY0LDE1LjIwOTIsMTYuNTQyNjYsMTUuMjA5MmMxLjQzMTIxLDAsMy40MDEyMS0wLjA5MjQ4LDQuNDc1NjgtMC4zNTc2NgoJCWwyLjc3MzYyLTEwLjE5NzA2QzMzNy40MDc3NSw3MC4xMTM1NywzMzUuOTc3MDIsNzAuMjAyNzgsMzM0LjcyMDQ5LDcwLjIwMjc4eiIvPgoJPHBhdGggZmlsbD0iIzIxMzM0MyIgZD0iTTEyOC44OTMyMywzMi4yNzUzM2MtNS41NDY3MywwLTkuNDE4MjksMS42MTAwMi0xMy4xNTczNiw1LjI4MDAzVjE2LjI3Njg1aC0xMS4yMTgwOXYzOS40MzU0NgoJCWMwLDE0Ljc2MDQsMTAuNjcxNjEsMjQuODY5NjMsMjIuNjYyMzYsMjQuODY5NjNjMTMuMzI5MDYsMCwyNS4wMDc3Ny0xMC4yODg5OSwyNS4wMDc3Ny0yNC4xNTIzMgoJCUMxNTIuMTg3OTEsNDIuNzQxOTEsMTQxLjQxODY5LDMyLjI3NTMzLDEyOC44OTMyMywzMi4yNzUzM3ogTTEyOC44MjM1LDY5LjI5MTczYy03LjAyNzU0LDAtMTIuNzIzNzQtNS42OTY0Mi0xMi43MjM3NC0xMi43MjM1MwoJCWMwLTcuMDI2ODksNS42OTYyLTEyLjcyMzUzLDEyLjcyMzc0LTEyLjcyMzUzYzcuMDI2NjcsMCwxMi43MjMzMSw1LjY5NjY0LDEyLjcyMzMxLDEyLjcyMzUzCgkJQzE0MS41NDY4MSw2My41OTUzLDEzNS44NTAxNyw2OS4yOTE3MywxMjguODIzNSw2OS4yOTE3M3oiLz4KCTxwYXRoIGZpbGw9IiMyMTMzNDMiIGQ9Ik0yNTAuNjgzNDYsNTUuODQ3MjRjMC0xMy44NjMzMy0xMS42Nzg3My0yNC4xNTIzMi0yNS4wMDc3OC0yNC4xNTIzMgoJCWMtMTEuOTkwNzUsMC0yMi42NjIzNSwxMC4xMDkyMi0yMi42NjIzNSwyNC44Njk2M1Y5NmgxMS4yMTgwOVY3NC43MjE0OWMzLjczOTA2LDMuNjcwMDEsNy42MTA2Myw1LjI4MDAzLDEzLjE1NzM1LDUuMjgwMDMKCQlDMjM5LjkxNDIyLDgwLjAwMTUyLDI1MC42ODM0Niw2OS41MzQ5NCwyNTAuNjgzNDYsNTUuODQ3MjR6IE0yNDAuMDQyMzQsNTUuNzA4NjVjMCw3LjAyNjg5LTUuNjk2NjQsMTIuNzIzNTMtMTIuNzIzMzEsMTIuNzIzNTMKCQljLTcuMDI3NTQsMC0xMi43MjM3NC01LjY5NjY0LTEyLjcyMzc0LTEyLjcyMzUzYzAtNy4wMjcxLDUuNjk2Mi0xMi43MjM1MywxMi43MjM3NC0xMi43MjM1MwoJCUMyMzQuMzQ1Nyw0Mi45ODUxMywyNDAuMDQyMzQsNDguNjgxNTUsMjQwLjA0MjM0LDU1LjcwODY1eiIvPgoJPHBhdGggZmlsbD0iI0ZGNUMzNSIgZD0iTTI4Ni45MzI0NiwzMS4xNTE1NFYxOS44ODMxMmMyLjk0MTE2LTEuMzg5NTEsNS4wMDIwMS00LjM2NTA4LDUuMDAyMDEtNy44MTg1di0wLjI2MDM4CgkJYzAtNC43NjU1Ny0zLjg5OTQ0LTguNjY0OC04LjY2NDgzLTguNjY0OGgtMC4yNjAxNmMtNC43NjU3OCwwLTguNjY1MjIsMy44OTkyMy04LjY2NTIyLDguNjY0OHYwLjI2MDM4CgkJYzAsMy40NTM0MSwyLjA2MTI4LDYuNDI5NDIsNS4wMDI0MSw3LjgxODcydjExLjI2ODQyYy00LjM3OTI0LDAuNjc2NTYtOC4zODA2NSwyLjQ4MjY5LTExLjY4MjE5LDUuMTQwNzlsLTMwLjkzODg3LTI0LjA2NzU2CgkJYzAuMjAzNTEtMC43ODM3NywwLjM0NjQ1LTEuNTkxMjksMC4zNDczMi0yLjQzODY4YzAuMDA2OTctNS4zOTc5MS00LjM2MzEzLTkuNzc5MzMtOS43NjEyNS05Ljc4NjMxCgkJYy01LjM5ODEzLTAuMDA2NzUtOS43Nzk1Niw0LjM2MzU2LTkuNzg2NTMsOS43NjE0N2MtMC4wMDY1Myw1LjM5NzkxLDQuMzYzNTYsOS43NzkzMyw5Ljc2MTY5LDkuNzg2MDkKCQljMS43NTkyOCwwLjAwMjE4LDMuMzg3MzktMC40OTc0NSw0LjgxNDYxLTEuMzA5MTFsMzAuNDM0NjUsMjMuNjc1NzljLTIuNTg4NTksMy45MDY4NS00LjEwNDI1LDguNTg2OC00LjEwNDI1LDEzLjYyNDUyCgkJYzAsNS4yNzQ1OCwxLjY2NjAyLDEwLjE1MjgxLDQuNDgyMDksMTQuMTY1NzdsLTkuMjU1NzQsOS4yNTU3NGMtMC43MzE2OS0wLjIxOTQyLTEuNDkxMjctMC4zNzMwNC0yLjI5NDg2LTAuMzczMDQKCQljLTQuNDM1NDcsMC04LjAzMTYsMy41OTU5Mi04LjAzMTYsOC4wMzE2czMuNTk2MTMsOC4wMzE2LDguMDMxNiw4LjAzMTZjNC40MzU5LDAsOC4wMzE1OS0zLjU5NTkyLDguMDMxNTktOC4wMzE2CgkJYzAtMC44MDMxNi0wLjE1MzM4LTEuNTYyOTYtMC4zNzMwMi0yLjI5NDY1bDkuMTU1NDktOS4xNTUyOGM0LjE1NTcsMy4xNzI1NSw5LjMzMDY5LDUuMDc4MDMsMTQuOTYyODMsNS4wNzgwMwoJCWMxMy42NDU0NSwwLDI0LjcwNzUyLTExLjA2MjI5LDI0LjcwNzUyLTI0LjcwODE3QzMwNy44NDc3NSw0My4xODU4NywyOTguNzcyODYsMzIuOTgwMzMsMjg2LjkzMjQ2LDMxLjE1MTU0eiBNMjgzLjE0MDIzLDY4LjIwNjI4CgkJYy02Ljk5NjE1LDAtMTIuNjY4NC01LjY3MTM3LTEyLjY2ODQtMTIuNjY3NTNjMC02Ljk5NTk0LDUuNjcyMjQtMTIuNjY3NTMsMTIuNjY4NC0xMi42Njc1MwoJCWM2Ljk5NTMsMCwxMi42Njc1NCw1LjY3MTU4LDEyLjY2NzU0LDEyLjY2NzUzQzI5NS44MDc3Nyw2Mi41MzQ5MiwyOTAuMTM1NTMsNjguMjA2MjgsMjgzLjE0MDIzLDY4LjIwNjI4eiIvPgo8L2c+Cjwvc3ZnPgo=" alt="Logo" class="logo" width="150">
+            </a>
+        </div>
+        <div class = "header-left">
+            <!-- -->
+            <h1>
+                Lista de Colaboradores
+            </h1>
+        </div>
+    </div>
+
+    <div>
+        
+    </div>
+    
+    <div align="center">
+        <!-- Boton para cargar los datos de los colaboradores -->
+        <button id = "cargar" class="nav-item">
+            Cargar colaboradores
+        </button>    
+    </div>
+
+    <!-- Agregar espacio entre divisiones -->
+    <p></p>
+
+    <!-- Tabla -->
+    <table id = "tablaColaboradores" border = "1" bgcolor="#fb741c" align="center" class="color-texto">
+        <thead>
+            <tr> 
+                <!-- Encabezados de la tabla -->
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Dirección</th>
+                <th>Edad</th>
+                <th>Profesión</th>
+                <th>Estado Civil</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Codigo JavaScript -->
+    <script>
+        /*
+        * Agrega un evento al botón con id 'cargar' para que se ejecute cuando se haga clic en él.
+        * Esta línea selecciona el botón con el id cargar y agrega un evento clicka él. 
+        * Cuando el usuario hace clic en el botón, se ejecuta la función asincrónica.
+        */
+        document.getElementById('cargar').addEventListener('click', async function() {
+            /* 
+            * fetch() es una función que realiza una solicitud HTTP al servidor. 
+            * Aquí se está enviando una solicitud GET para http://localhost:3001/colaboradores obtener los datos de los colaboradores.
+            * await espera a que la solicitud se complete antes de continuar con el siguiente paso.
+            * response.json()convierte la respuesta en formato JSON a un objeto JavaScript que se asigna a la variable colaboradores.
+            */
+            const response = await fetch('http://localhost:3001/colaboradores'); // Conencta a la base de datos del index.js
+            const colaboradores = await response.json();
+            // document.querySelector() selecciona el cuerpo de la tabla (tbody) en el documento HTML.
+            const tbody = document.querySelector('#tablaColaboradores tbody');
+            // Limpia cualquier dato existente en la tabla para que los datos nuevos no se mezclen con los anteriores.
+            tbody.innerHTML = ''; // Limpiar la tabla
+
+            // Itera sobre cada colaborador en la lista que recibimos del BackEnd.
+            colaboradores.forEach(colaborador => {
+                // Crea una nueva fila de tabla (<tr>) para cada colaborador.
+                const row = document.createElement('tr');
+                
+                // Este bloque de código crea el contenido HTML para cada fila de la tabla, utilizando las propiedades del objeto colaborador.
+                row.innerHTML = `
+                    <td>${colaborador.NOMBRE}</td>
+                    <td>${colaborador.APELLIDO}</td>
+                    <td>${colaborador.DIRECCION}</td>
+                    <td>${colaborador.EDAD}</td>
+                    <td>${colaborador.PROFESION}</td>
+                    <td>${colaborador.ESTADOCIVIL}</td>
+                    <td>
+                        <button class = "riesgo" data-edad = "${colaborador.EDAD}">
+                            NIVEL RIESGO
+                        </button>
+                    </td>
+                `;
+                // data-edad="${colaborador.EDAD}" es un atributo personalizado que almacena la edad del colaborador para usarla más adelante cuando se haga clic en el botón "NIVEL RIESGO".
+
+                // Añade cada fila creada al cuerpo de la tabla (tbody), actualizando visualmente la tabla con los datos del colaborador.
+                tbody.appendChild(row);
+            });
+
+            // Selecciona todos los botones con la clase riesgo (uno por cada colaborador).
+            document.querySelectorAll('.riesgo').forEach(button => {
+                // Se agrega un eventListener a cada botón para que se ejecute una función cuando se haga clic en él.
+                button.addEventListener('click', function() {
+                    // this.getAttribute('data-edad') obteiene el valor de la edad que se guardó como atributo personalizado en el botón correspondiente.
+                    const edad = this.getAttribute('data-edad'); 
+                    // Se inicializa la variable mensaje para almacenar el mensaje de riesgo según la edad.
+                    let mensaje = '';
+                    // Se utiliza una estructura condicional "if, else if" para determinar el nivel de riesgo basado en la edad del colaborador.
+                    if (edad >= 18 && edad <= 25) { // Si la edad está entre 18 y 25 años,
+                        mensaje = 'FUERA DE PELIGRO'; // Muestra el mensaje "FUERA DE PELIGRO".
+                    } else if (edad >= 26 && edad <= 50) { // Si la edad está entre 26 y 50 años.
+                        mensaje = 'TENGA CUIDADO, TOME TODAS LAS MEDIDAS DE PREVENSIÓN'; // Muestra el mensaje "TENGA CUIDADO, TOME TODAS LAS MEDIDAS DE PREVENSIÓN".
+                    } else if (edad >= 51) { // Si la edad es 51 años o más.
+                        mensaje = 'POR FAVOR QUEDARSE EN CASA'; // Muestra el mensaje "POR FAVOR QUEDARSE EN CASA".
+                    }
+                    alert(mensaje); // Muestra el mensaje en una ventana emergente.
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
